@@ -30,11 +30,21 @@ class AppCoordinator : Coordinator {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
     }
+    
+    private func navigateToWelcomeScreen() {
+        let welcomeViewModel = WelcomeViewModel(message: "Welcome")
+        let welcomeVC = WelcomeViewController(viewModel: welcomeViewModel)
+        navigate(to: welcomeVC)
+    }
+    
+    private func navigate(to viewController: UIViewController) {
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
 
 extension AppCoordinator: LoginViewControllerDelegate {
     func loginDidSucceed() {
-        print(#function)
+        navigateToWelcomeScreen()
     }
     
     func loginDidFail(with error: String) {
