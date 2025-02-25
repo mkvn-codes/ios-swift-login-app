@@ -17,7 +17,7 @@ class SampleAuthenticationService: AuthenticationService {
             return
         }
         
-        DispatchQueue.global().asyncAfter(deadline: .now() + 1.5) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
             if credentials.username == self.username && credentials.password == self.password {
                 completion(.success(true))
             } 
