@@ -33,6 +33,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         setUpTextField()
+        updateCredentialsFromTextFieldValues()
         bindViewModel()
     }
     
@@ -54,23 +55,17 @@ class LoginViewController: UIViewController {
 //MARK: Text Field functions
 extension LoginViewController {
     private func setUpTextField() {
-        if let username = usernameTextField.text {
-            viewModel.username = username
-        }
-        
-        if let password = passwordTextField.text {
-            viewModel.password = password
-        }
+        usernameTextField.addTarget(self, action: #selector(textFieldChanged(_:)), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(textFieldChanged(_:)), for: .editingChanged)
+    }
+    
+    private func updateCredentialsFromTextFieldValues() {
+        let username = usernameTextField.text ?? ""
+        let password = passwordTextField.text ?? ""
+        viewModel.updateCredentials(username: username, password: password)
     }
     
     @objc private func textFieldChanged(_ textField: UITextField) {
-        let text = textField.text ?? ""
-        
-        if textField == usernameTextField {
-            viewModel.username = text
-        }
-        else if textField == passwordTextField {
-            viewModel.password = text
-        }
+        updateCredentialsFromTextFieldValues()
     }
 }

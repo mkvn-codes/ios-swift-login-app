@@ -9,9 +9,7 @@ import Foundation
 
 class LoginViewModel {
     private let authService: AuthenticationService
-    
-    var username = ""
-    var password = ""
+    private var credentials = Credentials(username: "", password: "")
     
     var onAuthenticationSuccess: (() -> Void)?
     var onAuthenticationFailure: ((String) -> Void)?
@@ -20,13 +18,19 @@ class LoginViewModel {
         self.authService = authService
     }
     
-    func login() {
-        let credentials = Credentials(username: self.username, password: self.password)
+    func updateCredentials(username: String, password: String) {
+        if credentials.username == username && credentials.password == password {
+            return
+        }
         
+        credentials = Credentials(username: username, password: password)
+    }
+    
+    func login() {
         authService.login(with: credentials) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(_):
+                case .success:
                     self?.onAuthenticationSuccess?()
                 case .failure(let error):
                     self?.onAuthenticationFailure?(error.localizedDescription)
@@ -35,3 +39,4 @@ class LoginViewModel {
         }
     }
 }
+
