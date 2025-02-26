@@ -9,4 +9,10 @@ import Foundation
 
 class AppDependencies {
     static let shared = AppDependencies()
+    
+    let sessionManager: SessionManager
+    
+    private init() {
+        sessionManager = SessionManager()
+    }
 }
