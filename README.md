@@ -9,6 +9,10 @@ A simple login app built with UIKit and MVVM.
 - Coordinator-Based Navigation  
 - Login Validation  
 
+## Credentials
+- username: admin
+- password: 12345
+
 ## Installation
 1. Clone the repository:
    ```sh
