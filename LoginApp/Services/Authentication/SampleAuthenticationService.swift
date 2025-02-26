@@ -12,11 +12,6 @@ class SampleAuthenticationService: AuthenticationService {
     let password = "12345"
     
     func authenticate(with credentials: Credentials, completion: @escaping (Result<[String:Any], AuthenticationError>) -> Void) {
-        if !isValid(credentials) {
-            completion(.failure(.invalidCredentials))
-            return
-        }
-        
         let simulatedDelay = Double.random(in: 1...6)  // Simulate random delay between 1-6 seconds
         let timeoutThreshold = 5.0  // Timeout after 5 seconds
         
