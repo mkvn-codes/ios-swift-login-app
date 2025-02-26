@@ -24,10 +24,16 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupMessageLabel()
+        setUpUI()
     }
     
-    private func setupMessageLabel() {
+    private func setUpUI() {
+        navigationItem.hidesBackButton = true
+        
+        setUpMessageLabel()
+    }
+    
+    private func setUpMessageLabel() {
         messageLabel.text = viewModel.data.message
     }
 
