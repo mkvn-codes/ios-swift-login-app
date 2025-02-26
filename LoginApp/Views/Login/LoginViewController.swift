@@ -10,6 +10,8 @@ import UIKit
 class LoginViewController: UIViewController {
     private let viewModel: LoginViewModel
     
+    private var loadingOverlay: UIView?
+    
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
@@ -32,16 +34,44 @@ class LoginViewController: UIViewController {
     
     private func bindViewModel() {
         viewModel.onAuthenticationSuccess = { [weak self] in
-            
+            self?.hideLoading()
         }
         
         viewModel.onAuthenticationFailure = { [weak self] error in
-            
+            self?.hideLoading()
         }
     }
     
     @IBAction func loginButtonPressed(_ sender: UIButton) {
+        showLoading()
+        
         viewModel.login()
+    }
+}
+
+//MARK: Activity Indicator
+extension LoginViewController {
+    private func showLoading() {
+        guard loadingOverlay == nil else {
+            return
+        }
+        
+        let overlay = UIView(frame: view.bounds)
+        overlay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.center = overlay.center
+        activityIndicator.startAnimating()
+        
+        overlay.addSubview(activityIndicator)
+        view.addSubview(overlay)
+        
+        loadingOverlay = overlay
+    }
+    
+    private func hideLoading() {
+        loadingOverlay?.removeFromSuperview()
+        loadingOverlay = nil
     }
 }
 
