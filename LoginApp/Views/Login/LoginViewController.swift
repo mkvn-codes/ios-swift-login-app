@@ -37,8 +37,9 @@ class LoginViewController: UIViewController {
             self?.hideLoading()
         }
         
-        viewModel.onAuthenticationFailure = { [weak self] error in
+        viewModel.onAuthenticationFailure = { [weak self] errorMessage in
             self?.hideLoading()
+            self?.showToast(message: errorMessage)
         }
     }
     
@@ -49,8 +50,37 @@ class LoginViewController: UIViewController {
     }
 }
 
+//MARK: Toast
+extension LoginViewController {
+    // We can make this a ToastManager and add to AppDependencies instead
+    private func showToast(message: String) {
+        let toastLabel = UILabel(frame: CGRect(x: 20, y: view.frame.height - 100, width: view.frame.width - 40, height: 40))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        toastLabel.textColor = UIColor.white
+        toastLabel.textAlignment = .center
+        toastLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        toastLabel.text = message
+        toastLabel.alpha = 0
+        toastLabel.layer.cornerRadius = 10
+        toastLabel.clipsToBounds = true
+        
+        view.addSubview(toastLabel)
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            toastLabel.alpha = 1
+        }) { _ in
+            UIView.animate(withDuration: 0.5, delay: 2.0, options: .curveEaseOut, animations: {
+                toastLabel.alpha = 0
+            }) { _ in
+                toastLabel.removeFromSuperview()
+            }
+        }
+    }
+}
+
 //MARK: Activity Indicator
 extension LoginViewController {
+    // We can make this a LoadingOverlayManager and add to AppDependencies instead
     private func showLoading() {
         guard loadingOverlay == nil else {
             return
