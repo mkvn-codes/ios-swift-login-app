@@ -115,7 +115,7 @@ extension LoginViewController {
 //MARK: Login Button
 extension LoginViewController {
     private func updateLoginButtonState() {
-        var isValid = viewModel.hasValidCredentials
+        let isValid = viewModel.hasValidCredentials
         
         self.loginButton.isEnabled = isValid
         self.loginButton.alpha = isValid ? 1.0 : 0.6
