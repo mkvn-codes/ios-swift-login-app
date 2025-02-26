@@ -17,7 +17,15 @@ class SampleAuthenticationService: AuthenticationService {
             return
         }
         
-        DispatchQueue.global().asyncAfter(deadline: .now() + 2.5) {
+        let simulatedDelay = Double.random(in: 1...6)  // Simulate random delay between 1-6 seconds
+        let timeoutThreshold = 5.0  // Timeout after 5 seconds
+        
+        DispatchQueue.global().asyncAfter(deadline: .now() + simulatedDelay) {
+            if simulatedDelay > timeoutThreshold {
+                completion(.failure(.requestTimeout))
+                return
+            }
+            
             if credentials.username == self.username && credentials.password == self.password {
                 let response: [String: Any] = [
                     "id": "userIdSample",

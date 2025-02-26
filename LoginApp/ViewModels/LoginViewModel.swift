@@ -42,7 +42,7 @@ class LoginViewModel {
                         self?.onAuthenticationSuccess?()
                     } 
                     else {
-                        self?.onAuthenticationFailure?("Invalid response data.")
+                        self?.onAuthenticationFailure?(AuthenticationError.invalidResponseData.localizedDescription)
                     }
                 case .failure(let error):
                     self?.onAuthenticationFailure?(error.localizedDescription)
