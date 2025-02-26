@@ -13,11 +13,22 @@ class LoginViewModel {
     private let sessionManager: SessionManager
     
     // Model
-    private var credentials = Credentials(username: "", password: "")
+    private var credentials = Credentials(username: "", password: "") {
+        didSet {
+            onCredentialsUpdate?()
+        }
+    }
+    
+    var hasValidCredentials: Bool {
+        get {
+            return !credentials.username.isEmpty && !credentials.password.isEmpty
+        }
+    }
     
     // Callbacks
     var onAuthenticationSuccess: (() -> Void)?
     var onAuthenticationFailure: ((String) -> Void)?
+    var onCredentialsUpdate: (() -> Void)?
     
     init(authService: AuthenticationService, sessionManager: SessionManager) {
         self.authService = authService
@@ -33,6 +44,11 @@ class LoginViewModel {
     }
     
     func login() {
+        if !hasValidCredentials {
+            self.onAuthenticationFailure?(AuthenticationError.invalidCredentials.localizedDescription)
+            return
+        }
+        
         authService.authenticate(with: credentials) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
@@ -40,7 +56,7 @@ class LoginViewModel {
                     if let sessionUser = SessionUser(from: response) {
                         self?.sessionManager.startSession(with: sessionUser)
                         self?.onAuthenticationSuccess?()
-                    } 
+                    }
                     else {
                         self?.onAuthenticationFailure?(AuthenticationError.invalidResponseData.localizedDescription)
                     }

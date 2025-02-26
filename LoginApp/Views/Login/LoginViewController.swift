@@ -12,6 +12,7 @@ class LoginViewController: UIViewController {
     
     private var loadingOverlay: UIView?
     
+    @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
@@ -27,9 +28,11 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpTextField()
-        updateCredentialsFromTextFieldValues()
         bindViewModel()
+        
+        setUpTextField()
+        updateLoginButtonState()
+        updateCredentialsFromTextFieldValues()
     }
     
     private func bindViewModel() {
@@ -40,6 +43,10 @@ class LoginViewController: UIViewController {
         viewModel.onAuthenticationFailure = { [weak self] errorMessage in
             self?.hideLoading()
             self?.showToast(message: errorMessage)
+        }
+        
+        viewModel.onCredentialsUpdate = { [weak self] in
+            self?.updateLoginButtonState()
         }
     }
     
@@ -102,6 +109,16 @@ extension LoginViewController {
     private func hideLoading() {
         loadingOverlay?.removeFromSuperview()
         loadingOverlay = nil
+    }
+}
+
+//MARK: Login Button
+extension LoginViewController {
+    private func updateLoginButtonState() {
+        var isValid = viewModel.hasValidCredentials
+        
+        self.loginButton.isEnabled = isValid
+        self.loginButton.alpha = isValid ? 1.0 : 0.6
     }
 }
 
