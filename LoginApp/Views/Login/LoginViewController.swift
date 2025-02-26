@@ -7,15 +7,8 @@
 
 import UIKit
 
-protocol LoginViewControllerDelegate: AnyObject {
-    func loginDidSucceed()
-    func loginDidFail(with error: String)
-}
-
 class LoginViewController: UIViewController {
     private let viewModel: LoginViewModel
-    
-    weak var delegate: LoginViewControllerDelegate?
     
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -39,11 +32,11 @@ class LoginViewController: UIViewController {
     
     private func bindViewModel() {
         viewModel.onAuthenticationSuccess = { [weak self] in
-            self?.delegate?.loginDidSucceed()
+            
         }
         
         viewModel.onAuthenticationFailure = { [weak self] error in
-            self?.delegate?.loginDidFail(with: error)
+            
         }
     }
     

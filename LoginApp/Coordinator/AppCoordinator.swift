@@ -31,8 +31,6 @@ class AppCoordinator : Coordinator {
         let authService = SampleAuthenticationService()
         let loginViewModel = LoginViewModel(authService: authService)
         let loginVC = LoginViewController(viewModel: loginViewModel)
-        
-        loginVC.delegate = self
 
         let newNavController = UINavigationController(rootViewController: loginVC)
         window.rootViewController = newNavController
@@ -49,16 +47,6 @@ class AppCoordinator : Coordinator {
     
     private func navigate(to viewController: UIViewController) {
         navigationController?.pushViewController(viewController, animated: true)
-    }
-}
-
-extension AppCoordinator: LoginViewControllerDelegate {
-    func loginDidSucceed() {
-        navigateToWelcomeScreen()
-    }
-    
-    func loginDidFail(with error: String) {
-        print(#function)
     }
 }
 
