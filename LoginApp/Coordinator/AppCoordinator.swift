@@ -22,15 +22,23 @@ class AppCoordinator : Coordinator {
     }
     
     func start() {
+        dependencies.sessionManager.delegate = self
+        
+        navigateToLoginScreen()
+    }
+    
+    private func navigateToLoginScreen() {
         let authService = SampleAuthenticationService()
         let loginViewModel = LoginViewModel(authService: authService)
         let loginVC = LoginViewController(viewModel: loginViewModel)
         
         loginVC.delegate = self
-        
-        navigationController = UINavigationController(rootViewController: loginVC)
-        window.rootViewController = navigationController
+
+        let newNavController = UINavigationController(rootViewController: loginVC)
+        window.rootViewController = newNavController
         window.makeKeyAndVisible()
+
+        navigationController = newNavController
     }
     
     private func navigateToWelcomeScreen() {
@@ -51,5 +59,15 @@ extension AppCoordinator: LoginViewControllerDelegate {
     
     func loginDidFail(with error: String) {
         print(#function)
+    }
+}
+
+extension AppCoordinator: SessionManagerDelegate {
+    func sessionDidStart(user: SessionUser) {
+        navigateToWelcomeScreen()
+    }
+    
+    func sessionDidEnd() {
+        navigateToLoginScreen()
     }
 }
