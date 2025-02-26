@@ -29,7 +29,7 @@ class AppCoordinator : Coordinator {
     
     private func navigateToLoginScreen() {
         let authService = SampleAuthenticationService()
-        let loginViewModel = LoginViewModel(authService: authService)
+        let loginViewModel = LoginViewModel(authService: authService, sessionManager: dependencies.sessionManager)
         let loginVC = LoginViewController(viewModel: loginViewModel)
 
         let newNavController = UINavigationController(rootViewController: loginVC)
