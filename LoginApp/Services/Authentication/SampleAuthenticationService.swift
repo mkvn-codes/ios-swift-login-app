@@ -11,7 +11,7 @@ class SampleAuthenticationService: AuthenticationService {
     let username = "admin"
     let password = "12345"
     
-    func login(with credentials: Credentials, completion: @escaping (Result<Bool, AuthenticationError>) -> Void) {
+    func authenticate(with credentials: Credentials, completion: @escaping (Result<Bool, AuthenticationError>) -> Void) {
         if !isValid(credentials) {
             completion(.failure(.invalidCredentials))
             return

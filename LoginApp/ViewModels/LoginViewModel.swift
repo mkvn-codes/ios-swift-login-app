@@ -27,7 +27,7 @@ class LoginViewModel {
     }
     
     func login() {
-        authService.login(with: credentials) { [weak self] result in
+        authService.authenticate(with: credentials) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success:

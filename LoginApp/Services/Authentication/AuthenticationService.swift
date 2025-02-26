@@ -8,6 +8,5 @@
 import Foundation
 
 protocol AuthenticationService {
-    func login(with credentials: Credentials, completion: @escaping (Result<Bool, AuthenticationError>) -> Void)
-    func logout(completion: @escaping (Bool) -> Void)
+    func authenticate(with credentials: Credentials, completion: @escaping (Result<Bool, AuthenticationError>) -> Void)
 }
