@@ -40,7 +40,7 @@ class AppCoordinator : Coordinator {
     }
     
     private func navigateToWelcomeScreen() {
-        let welcomeViewModel = WelcomeViewModel(message: "Welcome")
+        let welcomeViewModel = WelcomeViewModel(message: "Welcome", sessionManager: dependencies.sessionManager)
         let welcomeVC = WelcomeViewController(viewModel: welcomeViewModel)
         navigate(to: welcomeVC)
     }
