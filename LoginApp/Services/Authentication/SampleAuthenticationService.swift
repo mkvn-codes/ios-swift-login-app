@@ -11,7 +11,7 @@ class SampleAuthenticationService: AuthenticationService {
     let username = "admin"
     let password = "12345"
     
-    func authenticate(with credentials: Credentials, completion: @escaping (Result<Bool, AuthenticationError>) -> Void) {
+    func authenticate(with credentials: Credentials, completion: @escaping (Result<[String:Any], AuthenticationError>) -> Void) {
         if !isValid(credentials) {
             completion(.failure(.invalidCredentials))
             return
@@ -19,8 +19,13 @@ class SampleAuthenticationService: AuthenticationService {
         
         DispatchQueue.global().asyncAfter(deadline: .now() + 2.5) {
             if credentials.username == self.username && credentials.password == self.password {
-                completion(.success(true))
-            } 
+                let response: [String: Any] = [
+                    "id": "userIdSample",
+                    "token": "userTokenSample"
+                ]
+                
+                completion(.success(response))
+            }
             else {
                 completion(.failure(.invalidCredentials))
             }
