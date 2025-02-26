@@ -36,8 +36,14 @@ class LoginViewModel {
         authService.authenticate(with: credentials) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
-                case .success:
-                    self?.onAuthenticationSuccess?()
+                case .success(let response):
+                    if let sessionUser = SessionUser(from: response) {
+                        self?.sessionManager.startSession(with: sessionUser)
+                        self?.onAuthenticationSuccess?()
+                    } 
+                    else {
+                        self?.onAuthenticationFailure?("Invalid response data.")
+                    }
                 case .failure(let error):
                     self?.onAuthenticationFailure?(error.localizedDescription)
                 }
