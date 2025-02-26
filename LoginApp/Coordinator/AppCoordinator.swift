@@ -15,6 +15,8 @@ class AppCoordinator : Coordinator {
     private let window: UIWindow
     private var navigationController: UINavigationController?
     
+    private let dependencies = AppDependencies.shared
+    
     init(window: UIWindow) {
         self.window = window
     }
