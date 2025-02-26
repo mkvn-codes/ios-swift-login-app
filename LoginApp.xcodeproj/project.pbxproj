@@ -92,12 +92,12 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
-		4727C75B2D6E215C00737636 /* Service */ = {
+		4727C75B2D6E215C00737636 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				4727C75C2D6E216E00737636 /* Authentication */,
 			);
-			path = Service;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		4727C75C2D6E216E00737636 /* Authentication */ = {
@@ -161,7 +161,7 @@
 				4727C7512D6DCC7D00737636 /* Views */,
 				4727C7712D6E44AF00737636 /* Models */,
 				4727C7672D6E2DFF00737636 /* ViewModels */,
-				4727C75B2D6E215C00737636 /* Service */,
+				4727C75B2D6E215C00737636 /* Services */,
 				474364E42D6DBE6500DD6AA4 /* Assets.xcassets */,
 				474364E62D6DBE6500DD6AA4 /* LaunchScreen.storyboard */,
 				474364E92D6DBE6500DD6AA4 /* Info.plist */,
